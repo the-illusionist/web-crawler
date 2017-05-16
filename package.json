@@ -7,5 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Abhishek Kumar",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/the-illusionist/web-crawler.git"
+  },
+  "bugs": {
+    "url": "https://github.com/the-illusionist/web-crawler/issues"
+  },
+  "homepage": "https://github.com/the-illusionist/web-crawler#readme",
 }
