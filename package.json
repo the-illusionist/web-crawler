@@ -1,7 +1,6 @@
 {
   "name": "web-crawler",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,4 +15,10 @@
     "url": "https://github.com/the-illusionist/web-crawler/issues"
   },
   "homepage": "https://github.com/the-illusionist/web-crawler#readme",
+  "description": "",
+  "dependencies": {
+    "cheerio": "^0.19.0",
+    "request": "^2.65.0",
+    "url-parse": "^1.0.5"
+  }
 }
