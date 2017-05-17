@@ -19,7 +19,7 @@ A throttle feature which limits the number of concurrent requests.
 Two versions of script - one using async library & other without async library.
 
 ### Things to Note:
-findAll function in domutils library has an issue which leads to overflow of utils. To resolve this, replace findAll function in **node_modules -> domutils -> lib -> querying.js** with:
+**findAll** function in domutils library has an issue which leads to overflow of stack. To resolve this, replace findAll function in **node_modules -> domutils -> lib -> querying.js** with:
 
     function findAll(test, rootElems){
         var result = [];
