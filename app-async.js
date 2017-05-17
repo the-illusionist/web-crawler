@@ -1,10 +1,12 @@
-// Code cersion without using asyncawait library
+// Code version using asyncawait library
 
 const fs = require('fs');
 const request = require('request');
 const cheerio = require('cheerio');
+const async = require('asyncawait/async');
+const await = require('asyncawait/await');
 
-var baseUrl = "https://medium.com";
+var baseUrl = "http://iitj.ac.in";
 var throttleSize = 5;
 
 var linksVisited = [];
@@ -27,26 +29,37 @@ function crawl() {
   }
 }
 
-function visitUrl(url) {
+const visitUrl = async((url) => {
   linksVisited.push(url);
   console.log("Visiting page " + url);
   currentConnections++;
-  request(url, function(error, response, body) {
-    if (response && response.statusCode == 200) {
-      var parsedBody = cheerio.load(body);
-      collectLinks(parsedBody, url);
-      if (url == baseUrl + "/") {
-        poolInitiated = true;
-        crawl();
-      }
+  var result = await (makeRequest(url));
+  if (result.response && result.response.statusCode == 200) {
+    var parsedBody = cheerio.load(result.body);
+    collectLinks(parsedBody, url);
+    if (url == baseUrl + "/") {
+      poolInitiated = true;
+      crawl();
     }
-    currentConnections--;
-    checkIfFree();
-    console.log("concurrent connections: " + currentConnections);
-  });
+  }
+  currentConnections--;
+  checkIfFree();
+  console.log("concurrent connections: " + currentConnections);
   if (poolInitiated) {
     checkIfFree();
   }
+});
+
+function makeRequest(url) {
+  return new Promise(function(resolve, reject) {
+    request(url, function(error, response, body) {
+      if (error) return reject(error);
+      resolve({
+        "body": body,
+        "response": response
+      });
+    });
+  });
 }
 
 function collectLinks(parsedBody, url) {
@@ -79,7 +92,7 @@ function checkIfFree() {
 }
 
 function writeToCsv(arr) {
-  var file = fs.createWriteStream('links.csv');
+  var file = fs.createWriteStream('links-async.csv');
   file.on('error', function(err) {
     console.log("Error creating csv")
   });
