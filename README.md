@@ -20,3 +20,19 @@ Two versions of script - one using async library & other without async library.
 
 ### Things to Note:
 findAll function in domutils library has an issue which leads to overflow of utils. To resolve this, replace findAll function in **node_modules -> domutils -> lib -> querying.js** with:
+
+    function findAll(test, rootElems){
+        var result = [];
+        var stack = [rootElems];
+        while(stack.length){
+            var elems = stack.pop();
+            for(var i = 0, j = elems.length; i < j; i++){
+                var elem = elems[i];
+                if(isTag(elem)) {
+                    if(test(elem)) result.push(elem);
+                    stack.push(elem.children);
+                }
+            }
+        }
+        return result;
+    }
